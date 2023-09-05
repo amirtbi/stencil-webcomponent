@@ -6,56 +6,40 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
-    interface MyComponent {
+    interface CustomSideDrawer {
         /**
-          * The first name
+          * @Method make the open function expose to light DOM
          */
-        "first": string;
-        /**
-          * The last name
-         */
-        "last": string;
-        /**
-          * The middle name
-         */
-        "middle": string;
+        "open": () => Promise<void>;
+        "opened": boolean;
+        "title": string;
     }
 }
 declare global {
-    interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
+    interface HTMLCustomSideDrawerElement extends Components.CustomSideDrawer, HTMLStencilElement {
     }
-    var HTMLMyComponentElement: {
-        prototype: HTMLMyComponentElement;
-        new (): HTMLMyComponentElement;
+    var HTMLCustomSideDrawerElement: {
+        prototype: HTMLCustomSideDrawerElement;
+        new (): HTMLCustomSideDrawerElement;
     };
     interface HTMLElementTagNameMap {
-        "my-component": HTMLMyComponentElement;
+        "custom-side-drawer": HTMLCustomSideDrawerElement;
     }
 }
 declare namespace LocalJSX {
-    interface MyComponent {
-        /**
-          * The first name
-         */
-        "first"?: string;
-        /**
-          * The last name
-         */
-        "last"?: string;
-        /**
-          * The middle name
-         */
-        "middle"?: string;
+    interface CustomSideDrawer {
+        "opened"?: boolean;
+        "title"?: string;
     }
     interface IntrinsicElements {
-        "my-component": MyComponent;
+        "custom-side-drawer": CustomSideDrawer;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "custom-side-drawer": LocalJSX.CustomSideDrawer & JSXBase.HTMLAttributes<HTMLCustomSideDrawerElement>;
         }
     }
 }

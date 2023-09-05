@@ -7,8 +7,98 @@
 
     <script type="module" src="/build/web-component-stencil.esm.js"></script>
     <script nomodule src="/build/web-component-stencil.js"></script>
+ 
+    <style>
+      body{
+        font-family: sans-serif;
+        padding: 0px;
+        margin: 0px;
+      }
+      
+      nav,ul{
+        padding: 0px;
+        margin: 0px;
+        display: flex;
+        flex-direction: column;
+      }
+      li{
+        list-style: none;
+        padding: 1rem;
+        border-bottom: 1px solid #ccc;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.5s ease;
+      }
+      li:hover{
+        color: indianred;
+        border-bottom: 1px solid indianred;
+      }
+      button{
+        background-color: indianred;
+        z-index: 1001;
+        position: inherit
+
+      }
+      .wrapper{
+        display: flex;
+      }
+      main{
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+     
+    </style>
+ 
   </head>
   <body>
-    <my-component first="Stencil" last="'Don't call me a framework' JS"></my-component>
+
+    <div class="wrapper">
+     
+        
+        <main>
+         
+          <custom-side-drawer title="Main Navbar">
+            <nav>
+              <ul>
+                <li>Home</li>
+                <li>About</li>
+                <li>Link</li>
+              </ul>
+            </nav>
+          </custom-side-drawer>
+
+          <button>Open side menu</button>
+        </main>
+    </div>
+    
+  
+   
+
+
+    <script>
+
+
+      const sideBar = document.querySelector("custom-side-drawer");
+      const btnToggle = document.querySelector("button");
+
+       btnToggle.addEventListener("click",()=>{
+        if(!sideBar.opened){
+          sideBar.open();
+          backDrop.setAttribute("opened",'')
+
+        }
+        
+      })
+
+     
+
+      setTimeout(()=>{
+        sideBar.title = 'New navbar'
+     
+
+      },5000)
+
+      </script>
   </body>
 </html>
