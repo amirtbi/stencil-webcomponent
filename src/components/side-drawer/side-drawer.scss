@@ -1,0 +1,151 @@
+:host([opened]) aside {
+    left: 0px;
+}
+
+#backdrop {
+    position: fixed;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 100vh;
+    width: 100%;
+    visibility: hidden;
+    pointer-events: none;
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+}
+
+
+:host([opened]) #backdrop{
+    visibility: visible;
+    opacity: 1;
+    pointer-events: all;
+}
+
+
+aside {
+    // transform: translateX(-00px);
+    background-color: #eee;
+    width: 350px;
+    height: 100vh;
+    z-index: 2222;
+    position: fixed;
+    left: -100%;
+    bottom: 0px;
+    box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+    transition: all 0.5s ease;
+
+
+    header {
+        background-color: rgb(76, 0, 92);
+        padding: 0px;
+
+        .tabs {
+
+
+            margin: 0px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            &:first-child {
+
+                margin-right: 0.2rem;
+            }
+
+            button {
+                margin: 0px;
+                background-color: white;
+                padding: 1rem;
+                flex-grow: 1;
+          
+                border-top: none;
+                border-bottom: none;
+                border-right: none;
+                transition: all 0.5s ease-out;
+
+                &:hover {
+                    background-color: indianred;
+                    color: white;
+                }
+
+                &:focus {
+                    outline: none;
+                }
+
+                &:active {
+                    background-color: purple;
+                }
+
+                &.active {
+                    color: white;
+                    background-color: purple;
+                }
+
+            }
+        }
+
+        div {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            button {
+                border: none;
+                background-color: transparent;
+                margin: 0.75rem;
+                color: indianred;
+                font-size: 1rem;
+                cursor: pointer;
+
+            }
+        }
+
+        h1 {
+
+            padding: 1rem;
+            color: rgb(224, 117, 117);
+            font-weight: bold;
+            margin: 0px;
+        }
+    }
+
+
+
+    nav {
+        ul {
+            display: flex;
+            flex-direction: column;
+            padding: 0px;
+        }
+
+        li {
+            font-family: sans-serif;
+            font-weight: bold;
+            list-style: none;
+            padding: 1rem;
+            border-bottom: 1px solid #ccc;
+            transition: all 0.5s ease;
+            cursor: pointer;
+
+            &:hover {
+                color: pink;
+            }
+        }
+
+    }
+
+    #contact-information {
+        padding: 1rem;
+
+        p {
+            font-weight: bold;
+            color: indianred;
+        }
+
+        li {
+            padding: 0.5rem;
+            font-weight: bold;
+        }
+    }
+
+}
