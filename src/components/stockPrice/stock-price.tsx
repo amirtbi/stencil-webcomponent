@@ -13,6 +13,7 @@ export class StockPrice {
   @State() stockUserInput: string;
   @State() stockInputValid = false;
   @State() error: string;
+  @Prop() stockSymbol: string;
 
   // Update status of disabled button
   onUpdateUserInput = (event: Event) => {
@@ -56,6 +57,13 @@ export class StockPrice {
       console.log('error', e);
     }
   };
+
+  async componentDidLoad() {
+    if (this.stockSymbol) {
+      const res = await fetchPrice(this.stockSymbol);
+      this.Price = res['05. price'];
+    }
+  }
   render() {
     let PriceWrapper = <div>Please enter a valid symbol</div>;
 
