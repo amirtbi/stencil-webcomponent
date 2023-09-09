@@ -1,9 +1,33 @@
 $btn-color: white;
 $btn-bg: rgb(15, 161, 22);
 $shadow-box: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-
+$btn-disabled: #ccc;
 :host {
   font-family: sans-serif;
+}
+
+.undefined,
+.error {
+  color: red;
+  padding: 0.75rem;
+}
+
+.error-box {
+  border: 2px solid red;
+}
+.muted-box {
+  border: 2px solid #ccc;
+}
+.success-box {
+  border: 2px solid rgb(28, 199, 28);
+}
+
+section {
+  border: 1px solid #ccc;
+  padding: 2rem;
+  border-radius: 0.25rem;
+  margin-top: 2rem;
+  max-width: 400px;
 }
 #form {
   display: flex;
@@ -34,5 +58,9 @@ $shadow-box: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border-radius: 0.25rem;
     padding: 0.75rem 1.2rem;
     cursor: pointer;
+    &[disabled] {
+      background-color: $btn-disabled;
+      cursor: not-allowed;
+    }
   }
 }
