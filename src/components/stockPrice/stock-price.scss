@@ -1,0 +1,38 @@
+$btn-color: white;
+$btn-bg: rgb(15, 161, 22);
+$shadow-box: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+:host {
+  font-family: sans-serif;
+}
+#form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  box-shadow: $shadow-box;
+  padding: 2rem;
+
+  div.field {
+    display: flex;
+    width: 100%;
+  }
+  input#symbol {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    border: 1px solid #ccc;
+    margin-bottom: 1rem;
+    &:focus {
+      outline: none;
+      border: 1px solid gray;
+    }
+  }
+  #btn-submit {
+    background-color: $btn-bg;
+    color: $btn-color;
+    border: none;
+    border-radius: 0.25rem;
+    padding: 0.75rem 1.2rem;
+    cursor: pointer;
+  }
+}

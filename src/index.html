@@ -7,21 +7,22 @@
 
     <script type="module" src="/build/web-component-stencil.esm.js"></script>
     <script nomodule src="/build/web-component-stencil.js"></script>
- 
+
     <style>
-      body{
+      body {
         font-family: sans-serif;
         padding: 0px;
         margin: 0px;
       }
-      
-      nav,ul{
+
+      nav,
+      ul {
         padding: 0px;
         margin: 0px;
         display: flex;
         flex-direction: column;
       }
-      li{
+      li {
         list-style: none;
         padding: 1rem;
         border-bottom: 1px solid #ccc;
@@ -29,35 +30,33 @@
         cursor: pointer;
         transition: all 0.5s ease;
       }
-      li:hover{
+      li:hover {
         color: indianred;
         border-bottom: 1px solid indianred;
       }
-      button{
+      button {
         background-color: indianred;
         z-index: 1001;
-        position: inherit
-
+        position: inherit;
       }
-      .wrapper{
+      .wrapper {
         display: flex;
       }
-      main{
+      main {
         position: relative;
         width: 100%;
         height: 100%;
+        padding: 4rem;
       }
-     
     </style>
- 
   </head>
   <body>
-
     <div class="wrapper">
-     
-        
-        <main>
-         
+      <main>
+        <section>
+          <stock-price title="Oil price"></stock-price>
+        </section>
+        <!--          
           <custom-side-drawer title="Main Navbar">
             <nav>
               <ul>
@@ -68,37 +67,24 @@
             </nav>
           </custom-side-drawer>
 
-          <button>Open side menu</button>
-        </main>
+          <button>Open side menu</button> -->
+      </main>
     </div>
-    
-  
-   
-
 
     <script>
+      const sideBar = document.querySelector('custom-side-drawer');
+      const btnToggle = document.querySelector('button');
 
-
-      const sideBar = document.querySelector("custom-side-drawer");
-      const btnToggle = document.querySelector("button");
-
-       btnToggle.addEventListener("click",()=>{
-        if(!sideBar.opened){
+      btnToggle.addEventListener('click', () => {
+        if (!sideBar.opened) {
           sideBar.open();
-          backDrop.setAttribute("opened",'')
-
+          backDrop.setAttribute('opened', '');
         }
-        
-      })
+      });
 
-     
-
-      setTimeout(()=>{
-        sideBar.title = 'New navbar'
-     
-
-      },5000)
-
-      </script>
+      setTimeout(() => {
+        sideBar.title = 'New navbar';
+      }, 5000);
+    </script>
   </body>
 </html>

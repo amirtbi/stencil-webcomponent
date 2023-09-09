@@ -14,6 +14,9 @@ export namespace Components {
         "opened": boolean;
         "title": string;
     }
+    interface StockPrice {
+        "title": string;
+    }
 }
 declare global {
     interface HTMLCustomSideDrawerElement extends Components.CustomSideDrawer, HTMLStencilElement {
@@ -22,8 +25,15 @@ declare global {
         prototype: HTMLCustomSideDrawerElement;
         new (): HTMLCustomSideDrawerElement;
     };
+    interface HTMLStockPriceElement extends Components.StockPrice, HTMLStencilElement {
+    }
+    var HTMLStockPriceElement: {
+        prototype: HTMLStockPriceElement;
+        new (): HTMLStockPriceElement;
+    };
     interface HTMLElementTagNameMap {
         "custom-side-drawer": HTMLCustomSideDrawerElement;
+        "stock-price": HTMLStockPriceElement;
     }
 }
 declare namespace LocalJSX {
@@ -31,8 +41,12 @@ declare namespace LocalJSX {
         "opened"?: boolean;
         "title"?: string;
     }
+    interface StockPrice {
+        "title"?: string;
+    }
     interface IntrinsicElements {
         "custom-side-drawer": CustomSideDrawer;
+        "stock-price": StockPrice;
     }
 }
 export { LocalJSX as JSX };
@@ -40,6 +54,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "custom-side-drawer": LocalJSX.CustomSideDrawer & JSXBase.HTMLAttributes<HTMLCustomSideDrawerElement>;
+            "stock-price": LocalJSX.StockPrice & JSXBase.HTMLAttributes<HTMLStockPriceElement>;
         }
     }
 }
