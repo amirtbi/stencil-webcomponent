@@ -2,7 +2,7 @@ import axios from 'axios';
 const API_KEY = 'SYS391O1R9LE35B1';
 
 const axiosInstance = axios.create({
-  baseURL: '',
+  baseURL: 'https://api.coinbase.com/v2',
 });
 
 class ApiClass {

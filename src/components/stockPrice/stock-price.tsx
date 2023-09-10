@@ -1,5 +1,5 @@
 import { Component, h, State, Prop, Element } from '@stencil/core';
-import { fetchPrice } from '../../utils/fetchStock';
+import { setValues } from '../../utils/fetchStock';
 @Component({
   tag: 'stock-price',
   styleUrl: './stock-price.scss',
@@ -7,13 +7,17 @@ import { fetchPrice } from '../../utils/fetchStock';
 })
 export class StockPrice {
   stockInput: HTMLInputElement;
+
   @Element() el: HTMLElement;
   @Prop({ reflect: true }) title: string;
-  @State() Price: number | undefined;
+  @State() initialSymbol: string;
+  @State() PairCoin: Map<any, any> = new Map();
   @State() stockUserInput: string;
   @State() stockInputValid = false;
   @State() error: string;
+  @State() loading = 'false';
   @Prop() stockSymbol: string;
+  @State() currentState: string;
 
   // Update status of disabled button
   onUpdateUserInput = (event: Event) => {
@@ -27,6 +31,13 @@ export class StockPrice {
     }
   };
 
+  setPrices = async (symbol: string) => {
+    const res = await setValues(symbol);
+    this.stockInputValid = true;
+    this.stockUserInput = this.stockSymbol;
+    this.PairCoin = res;
+    this.initialSymbol = this.stockSymbol;
+  };
   // Fetch price and send request
   onFetchPrice = async (event: Event) => {
     event.preventDefault();
@@ -34,50 +45,82 @@ export class StockPrice {
       // const stockSymbol = (this.el.shadowRoot.querySelector('#symbol') as HTMLInputElement).value;
       const stockSymbol = this.stockInput.value;
       if (stockSymbol !== '') {
-        const res = await fetchPrice(stockSymbol);
-        console.log('res', res);
-        if ('05. price' in res) {
-          this.Price = res['05. price'];
-          this.error = null;
-        } else {
-          this.stockUserInput = '';
-          throw new Error('Something went wrong');
-        }
-      } else {
-        this.stockUserInput = '';
-        this.Price = undefined;
-      }
+        await this.setPrices(stockSymbol);
 
-      console.log('price', this.Price);
+        console.log('price', this.PairCoin);
+      }
     } catch (e) {
-      this.error = e.message;
-      this.Price = undefined;
-      this.stockUserInput = '';
-      this.stockInputValid = false;
-      console.log('error', e);
+      console.log('res', e);
     }
   };
 
-  async componentDidLoad() {
+  // Life cylces
+
+  async connectedCallback() {
+    this.loading = 'true';
     if (this.stockSymbol) {
-      const res = await fetchPrice(this.stockSymbol);
-      this.Price = res['05. price'];
+      const res = await setValues(this.stockSymbol);
+      this.PairCoin = res;
+      this.initialSymbol = this.stockSymbol;
+    }
+    this.loading = 'false';
+    console.log('connected callback');
+  }
+  // Before rendering component
+  // componentWillLoad() {
+  //   console.log('component will load');
+  //   this.Price = 0;
+  // }
+
+  componentDidRender() {
+    this.currentState = 'did rendered';
+    console.log('rendered component');
+  }
+
+  // Component rendered completely
+  async componentDidLoad() {
+    this.loading = 'true';
+    if (this.stockSymbol) {
+      // const res = await fetchPrices(this.stockSymbol);
+      await this.setPrices(this.stockSymbol);
     }
   }
+
+  async componentDidUpdate() {
+    console.log('did updating');
+    if (this.stockSymbol !== this.initialSymbol) {
+      await this.setPrices(this.stockSymbol);
+    }
+  }
+  // Before rerendering component
+  componentWillUpdate() {
+    console.log('updating ');
+  }
+
+  // Called once after first render occurs
+
   render() {
+    let loadingWrapper = <div>loading:{this.loading}</div>;
     let PriceWrapper = <div>Please enter a valid symbol</div>;
 
     if (this.error) {
       PriceWrapper = <div class="error">Error:{this.error}</div>;
     }
-    if (this.Price !== undefined) {
-      PriceWrapper = <div>Price:{this.Price}</div>;
+    if (this.PairCoin.size > 0) {
+      PriceWrapper = (
+        <div>
+          <p>Symbol:&nbsp;{this.PairCoin.get('name')}</p>
+          <p>Price:&nbsp;{this.PairCoin.get('formatted')}</p>
+        </div>
+      );
     } else {
       PriceWrapper = <div>Please enter a valid symbol</div>;
     }
 
     return [
+      loadingWrapper,
       <form id="form" onSubmit={this.onFetchPrice.bind(this)}>
+        <div>Status:{this.currentState}</div>
         <div class="field">
           <input value={this.stockUserInput} onInput={this.onUpdateUserInput.bind(this)} ref={el => (this.stockInput = el)} placeholder="stock symbol" id="symbol" />
         </div>
