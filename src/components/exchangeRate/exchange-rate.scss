@@ -1,0 +1,67 @@
+$btn-color: white;
+$btn-bg: rgb(15, 161, 22);
+$shadow-box: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+$btn-disabled: #ccc;
+$btn-hover: rgb(10, 80, 187);
+
+:host {
+  font-family: sans-serif;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  box-shadow: $shadow-box;
+  width: 400px;
+  padding: 2rem;
+  .form-container {
+    display: flex;
+    flex-direction: column;
+
+    .field {
+      display: flex;
+      width: 100%;
+      margin: 0.25rem;
+    }
+    input {
+      padding: 1rem;
+      border-radius: 0.75rem;
+      border: 1px solid #ccc;
+      width: 100%;
+    }
+    input:focus {
+      border: 1px solid #eee;
+    }
+    button {
+      background-color: rgb(6, 90, 214);
+      color: white;
+      padding: 0.75rem;
+      border-radius: 0.25rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      &:hover {
+        background-color: $btn-hover;
+      }
+    }
+  }
+  .list-container {
+    max-height: 400px;
+    overflow-y: auto;
+    ul {
+      border: 1px solid #eee;
+      padding: 0px;
+      margin: 1rem 0.25rem;
+      margin-top: 1rem;
+    }
+    li {
+      display: flex;
+      justify-content: space-between;
+      list-style: none;
+      font-family: sans-serif;
+      font-weight: regular;
+      padding: 0.2rem 1rem;
+      border-bottom: 1px solid #ccc;
+    }
+  }
+}

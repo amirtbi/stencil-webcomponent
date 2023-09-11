@@ -1,5 +1,5 @@
-import { Component, h, State, Prop, Element } from '@stencil/core';
-import { setValues } from '../../utils/fetchStock';
+import { Component, h, State, Prop, Element, Watch } from '@stencil/core';
+import { setValues } from '../../utils/fetchCoinHandler';
 @Component({
   tag: 'stock-price',
   styleUrl: './stock-price.scss',
@@ -16,8 +16,15 @@ export class StockPrice {
   @State() stockInputValid = false;
   @State() error: string;
   @State() loading = 'false';
-  @Prop() stockSymbol: string;
+  @Prop({ reflect: true, mutable: true }) stockSymbol: string;
   @State() currentState: string;
+
+  @Watch('stockSymbol')
+  async watchSymbolHanlder(newValue, oldValue) {
+    if (newValue !== oldValue) {
+      await this.setPrices(newValue);
+    }
+  }
 
   // Update status of disabled button
   onUpdateUserInput = (event: Event) => {
@@ -32,11 +39,14 @@ export class StockPrice {
   };
 
   setPrices = async (symbol: string) => {
+    console.log('symbol');
     const res = await setValues(symbol);
     this.stockInputValid = true;
+    this.stockSymbol = symbol;
     this.stockUserInput = this.stockSymbol;
     this.PairCoin = res;
-    this.initialSymbol = this.stockSymbol;
+    console.log('paircoin', this.PairCoin);
+    //this.initialSymbol = this.stockSymbol;
   };
   // Fetch price and send request
   onFetchPrice = async (event: Event) => {
@@ -58,13 +68,14 @@ export class StockPrice {
 
   async connectedCallback() {
     this.loading = 'true';
-    if (this.stockSymbol) {
+    if (!this.stockSymbol) {
+      console.log('========Connected callback====');
+
       const res = await setValues(this.stockSymbol);
       this.PairCoin = res;
-      this.initialSymbol = this.stockSymbol;
+      //this.initialSymbol = this.stockSymbol;
     }
     this.loading = 'false';
-    console.log('connected callback');
   }
   // Before rendering component
   // componentWillLoad() {
@@ -86,12 +97,14 @@ export class StockPrice {
     }
   }
 
-  async componentDidUpdate() {
-    console.log('did updating');
-    if (this.stockSymbol !== this.initialSymbol) {
-      await this.setPrices(this.stockSymbol);
-    }
-  }
+  // async componentDidUpdate() {
+  //   console.log('component updated ');
+  //   if (this.stockSymbol !== this.initialSymbol) {
+  //     console.log('http request sent');
+  //     this.initialSymbol = this.stockSymbol;
+  //     await this.setPrices(this.stockSymbol);
+  //   }
+  // }
   // Before rerendering component
   componentWillUpdate() {
     console.log('updating ');
@@ -118,7 +131,6 @@ export class StockPrice {
     }
 
     return [
-      loadingWrapper,
       <form id="form" onSubmit={this.onFetchPrice.bind(this)}>
         <div>Status:{this.currentState}</div>
         <div class="field">

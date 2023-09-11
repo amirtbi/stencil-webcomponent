@@ -48,13 +48,30 @@
         height: 100%;
         padding: 4rem;
       }
+      section {
+        display: flex;
+        flex-direction: row;
+
+        width: 100%;
+      }
+      section div {
+        margin: 0.2rem 2rem;
+        display: flex;
+        align-items: start;
+      }
     </style>
   </head>
   <body>
     <div class="wrapper">
       <main>
         <section>
-          <stock-price stock-symbol="ETH-USD" title="Oil price"></stock-price>
+          <div>
+            <stock-price stock-symbol="ETH-USD" title="Oil price"></stock-price>
+          </div>
+
+          <div>
+            <exchange-rate></exchange-rate>
+          </div>
         </section>
         <!--          
           <custom-side-drawer title="Main Navbar">

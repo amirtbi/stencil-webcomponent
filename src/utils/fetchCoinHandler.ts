@@ -12,7 +12,11 @@ const eth = new Map();
 const pairCoin = new Map();
 let date;
 
-export const addPricesInfo = (entries: any, pair: string) => {
+const fetchPrices = (pair: string): Promise<any> => {
+  return axiosApi.get(`${basePath.prefix}/${pair}/buy`);
+};
+
+const addPricesInfo = (entries: any, pair: string) => {
   PriceInfo.set('money', parseFloat(entries.data.amount));
   PriceInfo.set(
     'formatted',
@@ -25,7 +29,7 @@ export const addPricesInfo = (entries: any, pair: string) => {
   PriceInfo.set('name', pair.split('-')[0]);
 };
 
-export const grabPrices = async (pair: string) => {
+const grabPrices = async (pair: string) => {
   try {
     const response = await fetchPrices(pair);
     const { data: result } = response;
@@ -61,8 +65,4 @@ export const setValues = async (value: string) => {
   } catch (e) {
     console.log('error happened', e);
   }
-};
-
-export const fetchPrices = (pair: string): Promise<any> => {
-  return axiosApi.get(`${basePath.prefix}/${pair}/buy`);
 };
