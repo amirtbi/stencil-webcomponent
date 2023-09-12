@@ -19,5 +19,7 @@ export const config: Config = {
       serviceWorker: null, // disable service workers
     },
   ],
+  copy: [{ src: 'www/assets/core.js', dest: 'assets/core.js' }],
+
   plugins: [sass()],
 };

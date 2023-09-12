@@ -1,5 +1,6 @@
-import { Component, h, Element, State } from '@stencil/core';
+import { Component, h, Element, State, Event, EventEmitter } from '@stencil/core';
 import { getExchangesRate } from '../../utils/fetchExchangeHandler';
+
 @Component({
   tag: 'exchange-rate',
   styleUrl: './exchange-rate.scss',
@@ -7,11 +8,12 @@ import { getExchangesRate } from '../../utils/fetchExchangeHandler';
 })
 export class StockFinder {
   pairCoinNameInput: HTMLInputElement;
-
+  names = [1, 2, 3, 4, 5];
   @State() currencyInputValue: string;
   @State() rates: Map<string, any> = new Map([]);
   @State() currency: string;
   @Element() el: HTMLElement;
+  @Event({ bubbles: true, composed: true }) emittedSymbol: EventEmitter<string>;
 
   addRates(rates) {
     const listOfRates = Object.entries(rates);
@@ -36,6 +38,11 @@ export class StockFinder {
       console.log('rates map', this.rates);
     } catch (e) {}
   }
+
+  onEmitSymbol(symbol: string) {
+    console.log('selected symbol', symbol);
+    this.emittedSymbol.emit(symbol);
+  }
   render() {
     let exchangeRatesWrapper = <div>Please enter your currency</div>;
 
@@ -44,7 +51,7 @@ export class StockFinder {
         <ul>
           {Array.from(this.rates.keys()).map((key: string) => {
             return (
-              <li key={key}>
+              <li onClick={this.onEmitSymbol.bind(this, key)} key={key}>
                 <p>{key}</p>
                 <p>{Math.floor(Number(this.rates.get(key)))}</p>
               </li>

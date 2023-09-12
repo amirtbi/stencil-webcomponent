@@ -50,18 +50,28 @@ $btn-hover: rgb(10, 80, 187);
       max-height: 400px;
       overflow-y: auto;
       border: 1px solid #eee;
-      padding: 0px;
+      padding: 1rem;
       margin: 1rem 0.25rem;
       margin-top: 1rem;
     }
     li {
       display: flex;
       justify-content: space-between;
+
+      color: black;
       list-style: none;
+
       font-family: sans-serif;
       font-weight: regular;
       padding: 0.2rem 1rem;
-      border-bottom: 1px solid #ccc;
+      border: 1px solid black;
+      margin: 0.75rem;
+      cursor: pointer;
+      &:hover {
+        border: 1px solid rgb(255, 123, 0);
+        background-color: indianred;
+        color: white;
+      }
     }
   }
 }

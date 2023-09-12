@@ -7,6 +7,7 @@
 
     <script type="module" src="/build/web-component-stencil.esm.js"></script>
     <script nomodule src="/build/web-component-stencil.js"></script>
+
     <style>
       body {
         font-family: sans-serif;
@@ -96,21 +97,6 @@
           <button>Open side menu</button> -->
       </main>
     </div>
-
-    <script>
-      const sideBar = document.querySelector('custom-side-drawer');
-      const btnToggle = document.querySelector('button');
-
-      btnToggle.addEventListener('click', () => {
-        if (!sideBar.opened) {
-          sideBar.open();
-          backDrop.setAttribute('opened', '');
-        }
-      });
-
-      setTimeout(() => {
-        sideBar.title = 'New navbar';
-      }, 5000);
-    </script>
+    <script src="/assets/core.js"></script>
   </body>
 </html>

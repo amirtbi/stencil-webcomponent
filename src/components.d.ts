@@ -21,6 +21,10 @@ export namespace Components {
         "title": string;
     }
 }
+export interface ExchangeRateCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLExchangeRateElement;
+}
 declare global {
     interface HTMLCustomSideDrawerElement extends Components.CustomSideDrawer, HTMLStencilElement {
     }
@@ -52,6 +56,7 @@ declare namespace LocalJSX {
         "title"?: string;
     }
     interface ExchangeRate {
+        "onEmittedSymbol"?: (event: ExchangeRateCustomEvent<string>) => void;
     }
     interface StockPrice {
         "stockSymbol"?: string;
