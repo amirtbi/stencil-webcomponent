@@ -40,27 +40,34 @@ export class StockPrice {
 
   setPrices = async (symbol: string) => {
     console.log('symbol');
-    const res = await setValues(symbol);
-    this.stockInputValid = true;
-    this.stockSymbol = symbol;
-    this.stockUserInput = this.stockSymbol;
-    this.PairCoin = res;
-    console.log('paircoin', this.PairCoin);
+
+    try {
+      const res = await setValues(symbol);
+      if (res) {
+        this.stockInputValid = true;
+        this.stockSymbol = symbol;
+        this.stockUserInput = this.stockSymbol;
+        this.PairCoin = res;
+        this.error = '';
+      } else {
+        this.error = 'Not valid symbol';
+        return null;
+      }
+    } catch (e) {
+      this.error = 'Not valid symbol';
+      return null;
+    }
+
     //this.initialSymbol = this.stockSymbol;
   };
   // Fetch price and send request
   onFetchPrice = async (event: Event) => {
     event.preventDefault();
-    try {
-      // const stockSymbol = (this.el.shadowRoot.querySelector('#symbol') as HTMLInputElement).value;
-      const stockSymbol = this.stockInput.value;
-      if (stockSymbol !== '') {
-        await this.setPrices(stockSymbol);
 
-        console.log('price', this.PairCoin);
-      }
-    } catch (e) {
-      console.log('res', e);
+    // const stockSymbol = (this.el.shadowRoot.querySelector('#symbol') as HTMLInputElement).value;
+    const stockSymbol = this.stockInput.value;
+    if (stockSymbol !== '') {
+      await this.setPrices(stockSymbol);
     }
   };
 
@@ -72,7 +79,9 @@ export class StockPrice {
       console.log('========Connected callback====');
 
       const res = await setValues(this.stockSymbol);
-      this.PairCoin = res;
+      if (res) {
+        this.PairCoin = res;
+      }
       //this.initialSymbol = this.stockSymbol;
     }
     this.loading = 'false';
@@ -119,13 +128,11 @@ export class StockPrice {
     }
   }
   render() {
-    let loadingWrapper = <div>loading:{this.loading}</div>;
     let PriceWrapper = <div>Please enter a valid symbol</div>;
 
     if (this.error) {
       PriceWrapper = <div class="error">Error:{this.error}</div>;
-    }
-    if (this.PairCoin.size > 0) {
+    } else if (this.PairCoin.size > 0) {
       PriceWrapper = (
         <div>
           <p>Symbol:&nbsp;{this.PairCoin.get('name')}</p>

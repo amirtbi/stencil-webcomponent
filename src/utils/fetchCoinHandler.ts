@@ -32,37 +32,46 @@ const addPricesInfo = (entries: any, pair: string) => {
 const grabPrices = async (pair: string) => {
   try {
     const response = await fetchPrices(pair);
-    const { data: result } = response;
+    console.log('response', response);
 
-    addPricesInfo(result, pair);
+    if (response.status === 200) {
+      const { data: result } = response;
+      addPricesInfo(result, pair);
+      return true;
+    } else {
+      return null;
+    }
   } catch (e) {
-    console.log('error', e);
+    return null;
   }
 };
 
 export const setValues = async (value: string) => {
   try {
     const response = await grabPrices(value);
-
-    if (value === 'BTC-USD') {
-      btc.set('name', PriceInfo.get('name'));
-      btc.set('formatted', PriceInfo.get('formatted'));
-      btc.set('money', PriceInfo.get('money'));
-      return btc;
-    } else if (value === 'ETH-USD') {
-      eth.set('name', PriceInfo.get('name'));
-      eth.set('formatted', PriceInfo.get('formatted'));
-      eth.set('money', PriceInfo.get('money'));
-      return eth;
+    if (response) {
+      if (value === 'BTC-USD') {
+        btc.set('name', PriceInfo.get('name'));
+        btc.set('formatted', PriceInfo.get('formatted'));
+        btc.set('money', PriceInfo.get('money'));
+        return btc;
+      } else if (value === 'ETH-USD') {
+        eth.set('name', PriceInfo.get('name'));
+        eth.set('formatted', PriceInfo.get('formatted'));
+        eth.set('money', PriceInfo.get('money'));
+        return eth;
+      } else {
+        pairCoin.set('name', PriceInfo.get('name'));
+        pairCoin.set('formatted', PriceInfo.get('formatted'));
+        pairCoin.set('money', PriceInfo.get('money'));
+        return pairCoin;
+      }
     } else {
-      pairCoin.set('name', PriceInfo.get('name'));
-      pairCoin.set('formatted', PriceInfo.get('formatted'));
-      pairCoin.set('money', PriceInfo.get('money'));
-      return pairCoin;
+      return null;
     }
 
     // date = new Date().toString();
   } catch (e) {
-    console.log('error happened', e);
+    return null;
   }
 };
