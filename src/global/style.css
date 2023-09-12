@@ -1,0 +1,60 @@
+body {
+  font-family: sans-serif;
+  padding: 0px;
+  margin: 0px;
+}
+main {
+  min-width: 100%;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 4rem;
+}
+nav,
+ul {
+  padding: 0px;
+  margin: 0px;
+  display: flex;
+  flex-direction: column;
+}
+li {
+  list-style: none;
+  padding: 1rem;
+  border-bottom: 1px solid #ccc;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+li:hover {
+  color: indianred;
+  border-bottom: 1px solid indianred;
+}
+button {
+  background-color: indianred;
+  z-index: 1001;
+  position: inherit;
+}
+.wrapper {
+  display: flex;
+}
+
+section {
+  display: flex;
+  flex-direction: row;
+
+  width: 100%;
+}
+section div {
+  margin: 0.2rem 2rem;
+  display: flex;
+  align-items: start;
+}
+
+@media screen and (max-width: 1090px) {
+  section {
+    display: flex;
+    flex-direction: column !important;
+
+    width: 100%;
+  }
+}

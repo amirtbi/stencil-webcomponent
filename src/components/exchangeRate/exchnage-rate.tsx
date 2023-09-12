@@ -9,7 +9,7 @@ export class StockFinder {
   pairCoinNameInput: HTMLInputElement;
 
   @State() currencyInputValue: string;
-  @State() rates = new Map([]);
+  @State() rates: Map<string, any> = new Map([]);
   @State() currency: string;
   @Element() el: HTMLElement;
 
@@ -61,7 +61,7 @@ export class StockFinder {
             <input value={this.currencyInputValue} ref={el => (this.pairCoinNameInput = el)} placeholder="pair coin" />
           </div>
           <div class="field">
-            <button type="submit">Find Pair coin</button>
+            <button type="submit">Find Exchange rates</button>
           </div>
         </form>
         <div class="list-container">{exchangeRatesWrapper}</div>

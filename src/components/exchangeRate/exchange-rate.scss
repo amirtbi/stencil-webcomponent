@@ -46,9 +46,9 @@ $btn-hover: rgb(10, 80, 187);
     }
   }
   .list-container {
-    max-height: 400px;
-    overflow-y: auto;
     ul {
+      max-height: 400px;
+      overflow-y: auto;
       border: 1px solid #eee;
       padding: 0px;
       margin: 1rem 0.25rem;
