@@ -1,4 +1,4 @@
-import { Component, h, State, Prop, Element, Watch } from '@stencil/core';
+import { Component, h, State, Prop, Element, Watch, Listen } from '@stencil/core';
 import { setValues } from '../../utils/fetchCoinHandler';
 @Component({
   tag: 'stock-price',
@@ -110,8 +110,14 @@ export class StockPrice {
     console.log('updating ');
   }
 
-  // Called once after first render occurs
-
+  // Listen evenets from body
+  @Listen('emittedSymbol', { target: 'body' })
+  async onSubmitListenedEmit(event: CustomEvent) {
+    console.log('Emiited');
+    if (event.detail !== this.stockSymbol && event.detail) {
+      await this.setPrices(event.detail + '-USD');
+    }
+  }
   render() {
     let loadingWrapper = <div>loading:{this.loading}</div>;
     let PriceWrapper = <div>Please enter a valid symbol</div>;
