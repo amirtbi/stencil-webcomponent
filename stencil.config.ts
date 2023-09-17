@@ -2,7 +2,7 @@ import { Config } from '@stencil/core';
 import { sass } from '@stencil/sass';
 
 export const config: Config = {
-  namespace: 'web-component-stencil',
+  namespace: 'WebComponentApp',
   outputTargets: [
     {
       type: 'dist',
@@ -11,15 +11,13 @@ export const config: Config = {
     {
       type: 'dist-custom-elements',
     },
-    {
-      type: 'docs-readme',
-    },
+
     // {
     //   type: 'www',
     //   serviceWorker: null, // disable service workers
     // },
   ],
-  bundles: [],
+
   copy: [{ src: 'www/assets/core.js', dest: 'assets/core.js' }],
 
   plugins: [sass()],
