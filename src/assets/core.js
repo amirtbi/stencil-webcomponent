@@ -9,3 +9,7 @@ exChangeRateEl.addEventListener('emittedSymbol', event => {
   }
   console.log('event', event.detail);
 });
+
+stockPriceEl.addEventListener('emittedEvent', event => {
+  console.log('Evenet', event);
+});

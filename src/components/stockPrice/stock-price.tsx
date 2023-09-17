@@ -98,6 +98,7 @@ export class StockPrice {
     console.log('rendered component');
   }
 
+  // Buil-in method
   hostData() {
     return { class: 'error' };
   }

@@ -1,6 +1,6 @@
 import { Component, h, Element, State, Event, EventEmitter, Listen } from '@stencil/core';
 import { getExchangesRate } from '../../utils/fetchExchangeHandler';
-
+import { CustomSpinner } from '../spinner/spinner';
 @Component({
   tag: 'exchange-rate',
   styleUrl: './exchange-rate.scss',
@@ -11,12 +11,16 @@ export class StockFinder {
   names = [1, 2, 3, 4, 5];
   @State() currencyInputValue: string;
   @State() rates: Map<string, any> = new Map([]);
+  @State() error: boolean = false;
   @State() currency: string;
   @State() receivedEmit: string = 'false';
+  @State() loading: boolean = false;
   @Element() el: HTMLElement;
   @Event({ bubbles: true, composed: true }) emittedSymbol: EventEmitter<string>;
 
   addRates(rates) {
+    this.rates.clear();
+    console.log('rates', this.rates);
     const listOfRates = Object.entries(rates);
     for (const [key, value] of listOfRates) {
       this.rates.set(key, value);
@@ -28,8 +32,14 @@ export class StockFinder {
 
     try {
       console.log('input value', this.pairCoinNameInput.value);
+      this.loading = true;
       const response = await getExchangesRate(this.pairCoinNameInput.value);
-      const res = await response;
+      const res: any = await response;
+      if (res.code === 'ERR_NETWORK') {
+        this.error = true;
+        this.loading = false;
+        return;
+      }
       const dataObj = res.data;
       this.currency = res.data.data.currency;
       const { rates } = dataObj.data;
@@ -37,9 +47,18 @@ export class StockFinder {
       this.addRates(rates);
 
       console.log('rates map', this.rates);
-    } catch (e) {}
+    } catch (e) {
+      this.loading = false;
+    } finally {
+      this.loading = false;
+    }
   }
 
+  hostData() {
+    if (this.error) {
+      return { class: 'error' };
+    }
+  }
   @Listen('emittedEvent', { target: 'body' })
   prinMessage(event: CustomEvent) {
     console.log('Event', event);
@@ -52,9 +71,19 @@ export class StockFinder {
     this.emittedSymbol.emit(symbol);
   }
   render() {
+    let className;
     let exchangeRatesWrapper = <div>Please enter your currency</div>;
+    let btnText = 'Find Exchange rates';
 
-    if (this.rates.size > 0) {
+    if (this.loading) {
+      exchangeRatesWrapper = <custom-spinner></custom-spinner>;
+    }
+    if (this.error) {
+      className = 'error';
+    } else {
+      className = null;
+    }
+    if (this.rates.size > 0 && !this.loading) {
       exchangeRatesWrapper = (
         <ul>
           {Array.from(this.rates.keys()).map((key: string) => {
@@ -71,13 +100,14 @@ export class StockFinder {
     }
     return [
       <div class="wrapper">
-        <p>Status:{this.receivedEmit}</p>
         <form class="form-container" onSubmit={this.onSubmitForm.bind(this)}>
           <div class="field">
-            <input value={this.currencyInputValue} ref={el => (this.pairCoinNameInput = el)} placeholder="pair coin" />
+            <input class={className} value={this.currencyInputValue} ref={el => (this.pairCoinNameInput = el)} placeholder="pair coin" />
           </div>
           <div class="field">
-            <button type="submit">Find Exchange rates</button>
+            <button disabled={this.loading} type="submit">
+              {btnText}
+            </button>
           </div>
         </form>
         <div class="list-container">{exchangeRatesWrapper}</div>

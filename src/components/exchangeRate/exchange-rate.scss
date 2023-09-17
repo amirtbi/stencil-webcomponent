@@ -7,7 +7,9 @@ $btn-hover: rgb(10, 80, 187);
 :host {
   font-family: sans-serif;
 }
-
+:host(.error) input {
+  border: 1px solid red !important;
+}
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -28,10 +30,14 @@ $btn-hover: rgb(10, 80, 187);
       border-radius: 0.75rem;
       border: 1px solid #ccc;
       width: 100%;
+      // &.error {
+      //   border: 1px solid red !important;
+      // }
+      &:focus {
+        border: 1px solid #eee;
+      }
     }
-    input:focus {
-      border: 1px solid #eee;
-    }
+
     button {
       background-color: rgb(6, 90, 214);
       color: white;

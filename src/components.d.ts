@@ -14,6 +14,8 @@ export namespace Components {
         "opened": boolean;
         "title": string;
     }
+    interface CustomSpinner {
+    }
     interface ExchangeRate {
     }
     interface StockPrice {
@@ -36,6 +38,12 @@ declare global {
         prototype: HTMLCustomSideDrawerElement;
         new (): HTMLCustomSideDrawerElement;
     };
+    interface HTMLCustomSpinnerElement extends Components.CustomSpinner, HTMLStencilElement {
+    }
+    var HTMLCustomSpinnerElement: {
+        prototype: HTMLCustomSpinnerElement;
+        new (): HTMLCustomSpinnerElement;
+    };
     interface HTMLExchangeRateElement extends Components.ExchangeRate, HTMLStencilElement {
     }
     var HTMLExchangeRateElement: {
@@ -50,6 +58,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "custom-side-drawer": HTMLCustomSideDrawerElement;
+        "custom-spinner": HTMLCustomSpinnerElement;
         "exchange-rate": HTMLExchangeRateElement;
         "stock-price": HTMLStockPriceElement;
     }
@@ -58,6 +67,8 @@ declare namespace LocalJSX {
     interface CustomSideDrawer {
         "opened"?: boolean;
         "title"?: string;
+    }
+    interface CustomSpinner {
     }
     interface ExchangeRate {
         "onEmittedSymbol"?: (event: ExchangeRateCustomEvent<string>) => void;
@@ -69,6 +80,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "custom-side-drawer": CustomSideDrawer;
+        "custom-spinner": CustomSpinner;
         "exchange-rate": ExchangeRate;
         "stock-price": StockPrice;
     }
@@ -78,6 +90,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "custom-side-drawer": LocalJSX.CustomSideDrawer & JSXBase.HTMLAttributes<HTMLCustomSideDrawerElement>;
+            "custom-spinner": LocalJSX.CustomSpinner & JSXBase.HTMLAttributes<HTMLCustomSpinnerElement>;
             "exchange-rate": LocalJSX.ExchangeRate & JSXBase.HTMLAttributes<HTMLExchangeRateElement>;
             "stock-price": LocalJSX.StockPrice & JSXBase.HTMLAttributes<HTMLStockPriceElement>;
         }
