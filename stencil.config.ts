@@ -14,11 +14,12 @@ export const config: Config = {
     {
       type: 'docs-readme',
     },
-    {
-      type: 'www',
-      serviceWorker: null, // disable service workers
-    },
+    // {
+    //   type: 'www',
+    //   serviceWorker: null, // disable service workers
+    // },
   ],
+  bundles: [],
   copy: [{ src: 'www/assets/core.js', dest: 'assets/core.js' }],
 
   plugins: [sass()],

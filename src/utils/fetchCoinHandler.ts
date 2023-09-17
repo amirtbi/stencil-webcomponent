@@ -10,7 +10,6 @@ const PriceInfo = new Map();
 const btc = new Map();
 const eth = new Map();
 const pairCoin = new Map();
-let date;
 
 const fetchPrices = (pair: string): Promise<any> => {
   return axiosApi.get(`${basePath.prefix}/${pair}/buy`);

@@ -1,6 +1,5 @@
 import { Component, h, Element, State, Event, EventEmitter, Listen } from '@stencil/core';
 import { getExchangesRate } from '../../utils/fetchExchangeHandler';
-import { CustomSpinner } from '../spinner/spinner';
 @Component({
   tag: 'exchange-rate',
   styleUrl: './exchange-rate.scss',

@@ -21,7 +21,7 @@ export class StockPrice {
   @Event({ bubbles: true, composed: true }) emittedEvent: EventEmitter<string>;
 
   @Watch('stockSymbol')
-  async watchSymbolHanlder(newValue, oldValue) {
+  async watchSymbolHanlder(newValue: string, oldValue: string) {
     if (newValue !== oldValue) {
       await this.setPrices(newValue);
     }

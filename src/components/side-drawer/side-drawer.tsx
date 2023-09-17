@@ -8,7 +8,7 @@ import { Component, h, Method, Prop, State, Watch } from '@stencil/core';
 export class SideDrawer {
   @State() counter = 0;
   @State() showContactInfo = false;
-  @Prop({ reflect: true }) title: string;
+  @Prop({ reflect: true }) topic: string;
   @Prop({ reflect: true, mutable: true }) opened: boolean;
 
   onClickTab(content: string) {
@@ -28,7 +28,7 @@ export class SideDrawer {
   }
 
   @Watch('counter')
-  WatchHanlder(newValue: number, oldValue: number) {
+  WatchHanlder(newValue: number) {
     this.counter = newValue;
   }
 
@@ -37,7 +37,7 @@ export class SideDrawer {
    * make the open function expose to light DOM
    */
   @Method()
-  open() {
+  async open() {
     this.opened = true;
   }
   render() {
@@ -66,7 +66,7 @@ export class SideDrawer {
       <aside>
         <header>
           <div>
-            <h1>{this.title}</h1>
+            <h1>{this.topic}</h1>
             <span>{this.counter}</span>
             <button onClick={this.onClickDrawer.bind(this)}>X</button>
           </div>

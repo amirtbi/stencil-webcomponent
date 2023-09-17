@@ -12,7 +12,7 @@ export namespace Components {
          */
         "open": () => Promise<void>;
         "opened": boolean;
-        "title": string;
+        "topic": string;
     }
     interface CustomSpinner {
     }
@@ -66,7 +66,7 @@ declare global {
 declare namespace LocalJSX {
     interface CustomSideDrawer {
         "opened"?: boolean;
-        "title"?: string;
+        "topic"?: string;
     }
     interface CustomSpinner {
     }
