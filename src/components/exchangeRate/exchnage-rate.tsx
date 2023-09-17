@@ -1,4 +1,4 @@
-import { Component, h, Element, State, Event, EventEmitter } from '@stencil/core';
+import { Component, h, Element, State, Event, EventEmitter, Listen } from '@stencil/core';
 import { getExchangesRate } from '../../utils/fetchExchangeHandler';
 
 @Component({
@@ -12,6 +12,7 @@ export class StockFinder {
   @State() currencyInputValue: string;
   @State() rates: Map<string, any> = new Map([]);
   @State() currency: string;
+  @State() receivedEmit: string = 'false';
   @Element() el: HTMLElement;
   @Event({ bubbles: true, composed: true }) emittedSymbol: EventEmitter<string>;
 
@@ -39,6 +40,13 @@ export class StockFinder {
     } catch (e) {}
   }
 
+  @Listen('emittedEvent', { target: 'body' })
+  prinMessage(event: CustomEvent) {
+    console.log('Event', event);
+    if (event.detail && event.detail === 'true') {
+      this.receivedEmit = event.detail;
+    }
+  }
   onEmitSymbol(symbol: string) {
     console.log('selected symbol', symbol);
     this.emittedSymbol.emit(symbol);
@@ -63,6 +71,7 @@ export class StockFinder {
     }
     return [
       <div class="wrapper">
+        <p>Status:{this.receivedEmit}</p>
         <form class="form-container" onSubmit={this.onSubmitForm.bind(this)}>
           <div class="field">
             <input value={this.currencyInputValue} ref={el => (this.pairCoinNameInput = el)} placeholder="pair coin" />

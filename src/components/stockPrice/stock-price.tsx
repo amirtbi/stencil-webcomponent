@@ -1,4 +1,4 @@
-import { Component, h, State, Prop, Element, Watch, Listen } from '@stencil/core';
+import { Component, h, State, Prop, Element, Watch, Listen, Event, EventEmitter } from '@stencil/core';
 import { setValues } from '../../utils/fetchCoinHandler';
 @Component({
   tag: 'stock-price',
@@ -18,6 +18,7 @@ export class StockPrice {
   @State() loading = 'false';
   @Prop({ reflect: true, mutable: true }) stockSymbol: string;
   @State() currentState: string;
+  @Event({ bubbles: true, composed: true }) emittedEvent: EventEmitter<string>;
 
   @Watch('stockSymbol')
   async watchSymbolHanlder(newValue, oldValue) {
@@ -97,6 +98,9 @@ export class StockPrice {
     console.log('rendered component');
   }
 
+  hostData() {
+    return { class: 'error' };
+  }
   // Component rendered completely
   async componentDidLoad() {
     this.loading = 'true';
@@ -104,6 +108,10 @@ export class StockPrice {
       // const res = await fetchPrices(this.stockSymbol);
       await this.setPrices(this.stockSymbol);
     }
+  }
+
+  emitEvent() {
+    this.emittedEvent.emit('true');
   }
 
   // async componentDidUpdate() {
@@ -155,6 +163,7 @@ export class StockPrice {
           </button>
         </div>
       </form>,
+      <button onClick={this.emitEvent.bind(this)}>Emit event</button>,
 
       <section class={this.error ? 'error-box' : ''}>{PriceWrapper}</section>,
     ];
